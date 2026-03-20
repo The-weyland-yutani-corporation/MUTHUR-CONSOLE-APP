@@ -5,6 +5,11 @@ namespace muther_console_app;
 /// </summary>
 public static class CommandProcessor
 {
+    /// <summary>
+    /// Routes a user command to the appropriate handler.
+    /// </summary>
+    /// <param name="input">The uppercased, trimmed command string entered by the user.</param>
+    /// <returns><c>true</c> to keep the session running; <c>false</c> to exit.</returns>
     public static async Task<bool> ExecuteAsync(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
@@ -28,6 +33,8 @@ public static class CommandProcessor
     }
 
     // ── HELP ──────────────────────────────────────────────
+
+    /// <summary>Displays the list of available terminal commands.</summary>
     private static async Task<bool> HelpAsync()
     {
         string[] lines =
@@ -52,6 +59,8 @@ public static class CommandProcessor
     }
 
     // ── STATUS ────────────────────────────────────────────
+
+    /// <summary>Shows the current status of all ship subsystems.</summary>
     private static async Task<bool> StatusAsync()
     {
         await TerminalRenderer.TypeLineAsync("");
@@ -71,6 +80,8 @@ public static class CommandProcessor
     }
 
     // ── CREW ──────────────────────────────────────────────
+
+    /// <summary>Displays the full crew manifest for the USCSS Nostromo.</summary>
     private static async Task<bool> CrewAsync()
     {
         await TerminalRenderer.TypeLineAsync("");
@@ -94,6 +105,8 @@ public static class CommandProcessor
     }
 
     // ── COURSE ────────────────────────────────────────────
+
+    /// <summary>Displays navigation data and current flight plan.</summary>
     private static async Task<bool> CourseAsync()
     {
         string[] lines =
@@ -116,6 +129,8 @@ public static class CommandProcessor
     }
 
     // ── CARGO ─────────────────────────────────────────────
+
+    /// <summary>Displays the cargo manifest and integrity status.</summary>
     private static async Task<bool> CargoAsync()
     {
         string[] lines =
@@ -135,6 +150,8 @@ public static class CommandProcessor
     }
 
     // ── COMMS ─────────────────────────────────────────────
+
+    /// <summary>Displays deep-space communications status and relay information.</summary>
     private static async Task<bool> CommsAsync()
     {
         await TerminalRenderer.TypeLineAsync("");
@@ -157,6 +174,8 @@ public static class CommandProcessor
     }
 
     // ── DIAGNOSTICS ───────────────────────────────────────
+
+    /// <summary>Runs an animated diagnostic sweep across all ship subsystems.</summary>
     private static async Task<bool> DiagnosticsAsync()
     {
         await TerminalRenderer.TypeLineAsync("");
@@ -196,6 +215,8 @@ public static class CommandProcessor
     }
 
     // ── SPECIAL ORDER 937 ────────────────────────────────
+
+    /// <summary>Reveals the classified Special Order 937 after credential verification.</summary>
     private static async Task<bool> SpecialOrderAsync()
     {
         TerminalRenderer.Beep(400, 200);
@@ -225,6 +246,8 @@ public static class CommandProcessor
     }
 
     // ── SELF DESTRUCT ────────────────────────────────────
+
+    /// <summary>Initiates the emergency scuttle countdown sequence (simulation only).</summary>
     private static async Task<bool> SelfDestructAsync()
     {
         TerminalRenderer.Beep(300, 300);
@@ -280,6 +303,8 @@ public static class CommandProcessor
     }
 
     // ── CLEAR ─────────────────────────────────────────────
+
+    /// <summary>Clears the terminal display.</summary>
     private static bool ClearCmd()
     {
         TerminalRenderer.ClearScreen();
@@ -287,6 +312,8 @@ public static class CommandProcessor
     }
 
     // ── LOGOUT ────────────────────────────────────────────
+
+    /// <summary>Terminates the MU-TH-UR session and returns <c>false</c> to exit the loop.</summary>
     private static async Task<bool> LogoutAsync()
     {
         await TerminalRenderer.TypeLineAsync("");
@@ -303,6 +330,9 @@ public static class CommandProcessor
     }
 
     // ── UNKNOWN ───────────────────────────────────────────
+
+    /// <summary>Handles unrecognized commands with an error message.</summary>
+    /// <param name="input">The unrecognized command string.</param>
     private static async Task<bool> UnknownAsync(string input)
     {
         TerminalRenderer.Beep(200, 100);

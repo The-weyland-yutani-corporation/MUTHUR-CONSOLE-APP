@@ -5,6 +5,9 @@ namespace muther_console_app;
 /// </summary>
 public class MuthurTerminal
 {
+    /// <summary>
+    /// Initializes the console, runs the boot sequence, and enters the main command loop.
+    /// </summary>
     public async Task RunAsync()
     {
         InitConsole();
@@ -23,6 +26,9 @@ public class MuthurTerminal
         Console.Clear();
     }
 
+    /// <summary>
+    /// Configures console title, colors, cursor, and window dimensions for the CRT experience.
+    /// </summary>
     private static void InitConsole()
     {
         Console.Title = $"{ShipDatabase.ComputerName} — {ShipDatabase.InterfaceVersion}";
