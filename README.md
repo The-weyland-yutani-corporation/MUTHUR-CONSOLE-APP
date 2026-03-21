@@ -34,7 +34,10 @@ dotnet run --project muther-console-app
 | **Typewriter Effect** | Character-by-character rendering with randomized micro-delays |
 | **Green Phosphor Look** | `DarkGreen` / `Green` on black — authentic 1980s CRT |
 | **CRT Flicker** | Simulated scan-line glitches for atmosphere |
-| **Audio Feedback** | `Console.Beep` tones for POST, alerts, and countdowns |
+| **Sound Effects** | Klaxon, alert tones, boot chime, data blips, and error buzz via `Console.Beep` |
+| **MOTHER Mode** | Conversational interface — ask MU-TH-UR questions in natural language |
+| **Idle Screen** | Animated screensaver with star field, pulsing text, and status ticker after 30s of inactivity |
+| **Hidden Easter Egg** | 👀 *Some things are best discovered on your own...* |
 
 ## Commands
 
@@ -47,6 +50,7 @@ dotnet run --project muther-console-app
 | `CARGO` | Cargo manifest — 20M tonnes mineral ore |
 | `COMMS` | Communications status (deep-space blackout) |
 | `DIAGNOSTICS` | Animated system-by-system diagnostic scan |
+| `MOTHER` | MU-TH-UR direct interface — natural language queries |
 | `SPECIAL ORDER 937` | 🔒 *Eyes only — Science Officer* |
 | `SELF DESTRUCT` | Emergency scuttle sequence with countdown |
 | `CLEAR` | Clear the terminal |
@@ -61,7 +65,11 @@ muther-console-app/
 ├── TerminalRenderer.cs   # CRT effects engine (typewriter, flicker, beep)
 ├── ShipDatabase.cs       # Canon-accurate Nostromo data
 ├── BootSequence.cs       # POST boot animation
-├── CommandProcessor.cs   # Command routing (11 commands)
+├── CommandProcessor.cs   # Command routing (13 commands)
+├── MotherMode.cs         # MU-TH-UR conversational interface
+├── SoundEffects.cs       # Console.Beep tone patterns
+├── PongGame.cs           # Hidden recreational subroutine
+├── IdleScreen.cs         # Animated idle screensaver
 └── muther-console-app.csproj
 ```
 

@@ -17,7 +17,7 @@ public class MuthurTerminal
         while (running)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            string input = TerminalRenderer.ReadCommand($"{ShipDatabase.ComputerName}> ");
+            string input = await TerminalRenderer.ReadCommandWithIdleAsync($"{ShipDatabase.ComputerName}> ");
             running = await CommandProcessor.ExecuteAsync(input);
         }
 

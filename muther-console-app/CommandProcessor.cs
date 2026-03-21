@@ -24,8 +24,10 @@ public static class CommandProcessor
             "CARGO"             => await CargoAsync(),
             "COMMS"             => await CommsAsync(),
             "DIAGNOSTICS"       => await DiagnosticsAsync(),
+            "MOTHER"            => await MotherAsync(),
             "SPECIAL ORDER 937" => await SpecialOrderAsync(),
             "SELF DESTRUCT"     => await SelfDestructAsync(),
+            "PONG"              => await PongAsync(),
             "CLEAR" or "CLS"    => ClearCmd(),
             "LOGOUT" or "EXIT"  => await LogoutAsync(),
             _                   => await UnknownAsync(input),
@@ -49,6 +51,7 @@ public static class CommandProcessor
             "  CARGO             CARGO MANIFEST",
             "  COMMS             COMMUNICATIONS STATUS",
             "  DIAGNOSTICS       RUN FULL DIAGNOSTIC SWEEP",
+            "  MOTHER            MU-TH-UR DIRECT INTERFACE",
             "  CLEAR             CLEAR TERMINAL",
             "  LOGOUT            TERMINATE SESSION",
             "──────────────────────────────────────────",
@@ -219,7 +222,7 @@ public static class CommandProcessor
     /// <summary>Reveals the classified Special Order 937 after credential verification.</summary>
     private static async Task<bool> SpecialOrderAsync()
     {
-        TerminalRenderer.Beep(400, 200);
+        _ = SoundEffects.AlertToneAsync();
         await TerminalRenderer.TypeLineAsync("");
         await TerminalRenderer.TypeLineAsync(
             "  *** EYES ONLY — SCIENCE OFFICER ***", bright: true);
@@ -240,8 +243,17 @@ public static class CommandProcessor
         }
         await TerminalRenderer.DrawRuleAsync('█', 60);
 
-        TerminalRenderer.Beep(300, 400);
+        _ = SoundEffects.AlertToneAsync();
         await TerminalRenderer.TypeLineAsync("");
+        return true;
+    }
+
+    // ── MOTHER ───────────────────────────────────────────
+
+    /// <summary>Enters the MU-TH-UR direct interface conversational mode.</summary>
+    private static async Task<bool> MotherAsync()
+    {
+        await MotherMode.RunAsync();
         return true;
     }
 
@@ -250,7 +262,7 @@ public static class CommandProcessor
     /// <summary>Initiates the emergency scuttle countdown sequence (simulation only).</summary>
     private static async Task<bool> SelfDestructAsync()
     {
-        TerminalRenderer.Beep(300, 300);
+        _ = SoundEffects.KlaxonAsync();
         await TerminalRenderer.TypeLineAsync("");
         await TerminalRenderer.TypeLineAsync(
             "  *** WARNING — EMERGENCY SCUTTLE SYSTEM ***", bright: true);
@@ -270,7 +282,7 @@ public static class CommandProcessor
             return true;
         }
 
-        TerminalRenderer.Beep(200, 500);
+        _ = SoundEffects.KlaxonAsync();
         await TerminalRenderer.TypeLineAsync("");
         await TerminalRenderer.TypeLineAsync(
             "  SELF-DESTRUCT SEQUENCE ACTIVATED.", bright: true);
@@ -284,7 +296,7 @@ public static class CommandProcessor
         {
             Console.ForegroundColor = i <= 3 ? ConsoleColor.Green : ConsoleColor.DarkGreen;
             Console.Write($"\r  *** T-MINUS {i,3} SECONDS ***   ");
-            TerminalRenderer.Beep(1000 + (10 - i) * 100, 80);
+            _ = SoundEffects.CountdownTickAsync(i);
             await Task.Delay(1000);
         }
 
@@ -308,6 +320,15 @@ public static class CommandProcessor
     private static bool ClearCmd()
     {
         TerminalRenderer.ClearScreen();
+        return true;
+    }
+
+    // ── PONG ──────────────────────────────────────────────
+
+    /// <summary>Launches the hidden Pong easter egg game.</summary>
+    private static async Task<bool> PongAsync()
+    {
+        await PongGame.RunAsync();
         return true;
     }
 
@@ -335,7 +356,7 @@ public static class CommandProcessor
     /// <param name="input">The unrecognized command string.</param>
     private static async Task<bool> UnknownAsync(string input)
     {
-        TerminalRenderer.Beep(200, 100);
+        _ = SoundEffects.ErrorBuzzAsync();
         await TerminalRenderer.TypeLineAsync("");
         await TerminalRenderer.TypeLineAsync(
             $"  UNABLE TO COMPLY. UNRECOGNIZED INPUT: '{input}'");

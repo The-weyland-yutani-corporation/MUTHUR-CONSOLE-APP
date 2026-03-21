@@ -90,6 +90,63 @@ public static class TerminalRenderer
     }
 
     /// <summary>
+    /// Reads a command with idle-screen activation after a timeout.
+    /// Uses non-blocking input polling to detect inactivity.
+    /// </summary>
+    /// <param name="prompt">The prompt string displayed before the cursor.</param>
+    /// <param name="idleTimeoutMs">Milliseconds of inactivity before triggering the idle screen.</param>
+    /// <returns>The trimmed, uppercased user input, or an empty string if null.</returns>
+    public static async Task<string> ReadCommandWithIdleAsync(string prompt = "> ", int idleTimeoutMs = 30000)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write(prompt);
+
+        var input = new System.Text.StringBuilder();
+        var idleStopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+        while (true)
+        {
+            if (Console.KeyAvailable)
+            {
+                var keyInfo = Console.ReadKey(true);
+                idleStopwatch.Restart();
+
+                if (keyInfo.Key == ConsoleKey.Enter)
+                {
+                    Console.WriteLine();
+                    return input.ToString().Trim().ToUpperInvariant();
+                }
+
+                if (keyInfo.Key == ConsoleKey.Backspace)
+                {
+                    if (input.Length > 0)
+                    {
+                        input.Remove(input.Length - 1, 1);
+                        Console.Write("\b \b");
+                    }
+                }
+                else if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    input.Append(keyInfo.KeyChar);
+                    Console.Write(keyInfo.KeyChar);
+                }
+            }
+            else if (idleStopwatch.ElapsedMilliseconds >= idleTimeoutMs)
+            {
+                await IdleScreen.RunAsync();
+
+                // Redraw prompt and current input after returning from idle
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(prompt + input.ToString());
+
+                idleStopwatch.Restart();
+            }
+
+            await Task.Delay(50);
+        }
+    }
+
+    /// <summary>
     /// Clears the screen and resets to the terminal color scheme.
     /// </summary>
     public static void ClearScreen()
