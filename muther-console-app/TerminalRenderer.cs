@@ -16,6 +16,9 @@ public static class TerminalRenderer
     /// <summary>
     /// Prints text character-by-character with a typewriter effect.
     /// </summary>
+    /// <param name="text">The text to render.</param>
+    /// <param name="bright">If <c>true</c>, uses bright green; otherwise dark green.</param>
+    /// <param name="slow">If <c>true</c>, triples the character delay for emphasis.</param>
     public static async Task TypeLineAsync(string text, bool bright = false, bool slow = false)
     {
         Console.ForegroundColor = bright ? ConsoleColor.Green : ConsoleColor.DarkGreen;
@@ -37,6 +40,8 @@ public static class TerminalRenderer
     /// <summary>
     /// Prints a block of text line-by-line with the typewriter effect.
     /// </summary>
+    /// <param name="lines">The array of lines to render.</param>
+    /// <param name="bright">If <c>true</c>, uses bright green for all lines.</param>
     public static async Task TypeBlockAsync(string[] lines, bool bright = false)
     {
         foreach (string line in lines)
@@ -48,6 +53,8 @@ public static class TerminalRenderer
     /// <summary>
     /// Prints text instantly (no animation) in the terminal style.
     /// </summary>
+    /// <param name="text">The text to print.</param>
+    /// <param name="bright">If <c>true</c>, uses bright green; otherwise dark green.</param>
     public static void PrintImmediate(string text, bool bright = false)
     {
         Console.ForegroundColor = bright ? ConsoleColor.Green : ConsoleColor.DarkGreen;
@@ -57,6 +64,7 @@ public static class TerminalRenderer
     /// <summary>
     /// Simulates a brief CRT flicker / scan-line glitch.
     /// </summary>
+    /// <param name="intensity">Number of flicker cycles to perform.</param>
     public static async Task FlickerAsync(int intensity = 1)
     {
         for (int i = 0; i < intensity; i++)
@@ -71,6 +79,8 @@ public static class TerminalRenderer
     /// <summary>
     /// Displays a blinking cursor prompt and waits for user input.
     /// </summary>
+    /// <param name="prompt">The prompt string displayed before the cursor.</param>
+    /// <returns>The trimmed, uppercased user input, or an empty string if null.</returns>
     public static string ReadCommand(string prompt = "> ")
     {
         Console.ForegroundColor = ConsoleColor.Green;
@@ -92,6 +102,8 @@ public static class TerminalRenderer
     /// <summary>
     /// Draws a horizontal rule.
     /// </summary>
+    /// <param name="c">The character used to draw the rule.</param>
+    /// <param name="width">The width of the rule in characters.</param>
     public static async Task DrawRuleAsync(char c = '─', int width = 60)
     {
         Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -100,8 +112,9 @@ public static class TerminalRenderer
     }
 
     /// <summary>
-    /// Prints a blank line pause to pace output.
+    /// Pauses execution for the specified duration to pace output.
     /// </summary>
+    /// <param name="ms">Duration to pause in milliseconds.</param>
     public static async Task PauseAsync(int ms = 400)
     {
         await Task.Delay(ms);
@@ -110,6 +123,8 @@ public static class TerminalRenderer
     /// <summary>
     /// Attempts a console beep (swallows exceptions on unsupported platforms).
     /// </summary>
+    /// <param name="frequency">Tone frequency in hertz.</param>
+    /// <param name="duration">Tone duration in milliseconds.</param>
     public static void Beep(int frequency = 800, int duration = 100)
     {
         try { Console.Beep(frequency, duration); }

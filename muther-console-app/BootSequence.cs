@@ -5,6 +5,9 @@ namespace muther_console_app;
 /// </summary>
 public static class BootSequence
 {
+    /// <summary>
+    /// Plays the full POST boot animation: CRT warm-up, logo, memory check, subsystem verification, and ready prompt.
+    /// </summary>
     public static async Task PlayAsync()
     {
         TerminalRenderer.ClearScreen();
