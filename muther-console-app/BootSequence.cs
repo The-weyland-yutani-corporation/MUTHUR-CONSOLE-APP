@@ -82,9 +82,7 @@ public static class BootSequence
         ];
         await TerminalRenderer.TypeBlockAsync(ready);
 
-        TerminalRenderer.Beep(600, 150);
-        await TerminalRenderer.PauseAsync(300);
-        TerminalRenderer.Beep(800, 150);
+        await SoundEffects.BootChimeAsync();
 
         await TerminalRenderer.TypeLineAsync(
             $"{ShipDatabase.InterfaceVersion} READY FOR INQUIRY.", bright: true);
