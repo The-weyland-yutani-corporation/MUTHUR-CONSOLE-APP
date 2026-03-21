@@ -13,8 +13,7 @@ public static class SoundEffects
     private static void SafeBeep(int frequency, int duration)
     {
         try { Console.Beep(frequency, duration); }
-        catch (PlatformNotSupportedException) { /* unsupported platform */ }
-        catch (NotSupportedException) { /* unsupported platform */ }
+        catch { /* unsupported platform or terminal */ }
     }
 
     // ── EMERGENCY TONES ──
